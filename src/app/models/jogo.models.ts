@@ -3,7 +3,7 @@ export class Jogo {
     nome: string;
     idPlataforma: string;
     idGenero: string;
-    idDesenvolvedora: string;
+    idDesensevolvedora: string;
     idFaixaEtaria: string;
     ano: string;
     valor: number;
