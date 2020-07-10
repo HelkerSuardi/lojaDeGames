@@ -1,38 +1,53 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Plataforma } from '../models/plataforma.models';
 import { Observable } from 'rxjs';
+import { Plataforma } from '../models/plataforma.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PlataformasService {
 
-  constructor(private firestore: AngularFirestore) { }
+    constructor(private firestore: AngularFirestore) { }
 
-  getObservable(): Observable<Plataforma[]> {
-    return this.firestore.collection<Plataforma>('plataformas').valueChanges({ idField: 'id' });
-  }
+    getObservable(): Observable<Plataforma[]> {
+        return this.firestore.collection<Plataforma>('plataformas').valueChanges({ idField: 'id' });
+    }
 
-  async add(plataforma: Plataforma): Promise<Plataforma> {
+    private convertToPlataforma(document: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): Plataforma {
 
-    const docRef = await this.firestore.collection<Plataforma>('plataformas').add(plataforma);
-    const doc = await docRef.get();
+        const dados = document.data();
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Plataforma;
-  }
+        const plataforma = {
+            id: document.id,
+            ...dados
+        } as Plataforma;
 
-  async get(id: string): Promise<Plataforma> {
+        return plataforma;
 
-    const doc = await this.firestore.collection<Plataforma>('plataformas').doc(id).get().toPromise();
+    }
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Plataforma;
+    async add(plataforma: Plataforma): Promise<Plataforma> {
 
-  }
+        const documentRef = await this.firestore.collection<Plataforma>('plataformas').add(plataforma);
+        const document = await documentRef.get();
+
+        return this.convertToPlataforma(document);
+
+    }
+
+    async get(id: string): Promise<Plataforma> {
+
+        const document = await this.firestore.collection<Plataforma>('plataformas').doc(id).get().toPromise();
+
+        return this.convertToPlataforma(document);
+
+    }
+
+    async update(id: string, plataforma: Plataforma): Promise<void> {
+
+        await this.firestore.collection<Plataforma>('plataformas').doc(id).update(plataforma);
+
+    }
+
 }

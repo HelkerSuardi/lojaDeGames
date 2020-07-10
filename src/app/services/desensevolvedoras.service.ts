@@ -1,38 +1,53 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Desenvolvedora } from '../models/desenvolvedora.models';
+import { Desenvolvedora } from '../models/desenvolvedora.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DesensevolvedorasService {
 
-  constructor(private firestore: AngularFirestore) { }
+    constructor(private firestore: AngularFirestore) { }
 
-  getObservable(): Observable<Desenvolvedora[]> {
-    return this.firestore.collection<Desenvolvedora>('desensevolvedoras').valueChanges({ idField: 'id' });
-  }
+    getObservable(): Observable<Desenvolvedora[]> {
+        return this.firestore.collection<Desenvolvedora>('desensevolvedoras').valueChanges({ idField: 'id' });
+    }
 
-  async add(desenvolvedora: Desenvolvedora): Promise<Desenvolvedora> {
+    private convertToDesensevolvedoras(document: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): Desenvolvedora {
 
-    const docRef = await this.firestore.collection<Desenvolvedora>('desensevolvedoras').add(desenvolvedora);
-    const doc = await docRef.get();
+        const dados = document.data();
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Desenvolvedora;
-  }
+        const desensevolvedora = {
+            id: document.id,
+            ...dados
+        } as Desenvolvedora;
 
-  async get(id: string): Promise<Desenvolvedora> {
+        return desensevolvedora;
 
-    const doc = await this.firestore.collection<Desenvolvedora>('faixas_etarias').doc(id).get().toPromise();
+    }
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Desenvolvedora;
+    async add(desensevolvedora: Desenvolvedora): Promise<Desenvolvedora> {
 
-  }
+        const documentRef = await this.firestore.collection<Desenvolvedora>('desensevolvedoras').add(desensevolvedora);
+        const document = await documentRef.get();
+
+        return this.convertToDesensevolvedoras(document);
+
+    }
+
+    async get(id: string): Promise<Desenvolvedora> {
+
+        const document = await this.firestore.collection<Desenvolvedora>('desensevolvedoras').doc(id).get().toPromise();
+
+        return this.convertToDesensevolvedoras(document);
+
+    }
+
+    async update(id: string, desensevolvedora: Desenvolvedora): Promise<void> {
+
+        await this.firestore.collection<Desenvolvedora>('desensevolvedoras').doc(id).update(desensevolvedora);
+
+    }
+
 }

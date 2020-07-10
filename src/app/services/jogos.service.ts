@@ -1,33 +1,53 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Jogo } from '../models/jogo.models';
+import { Jogo } from '../models/jogo.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class JogosService {
 
-  constructor(private firestore: AngularFirestore) { }
+    constructor(private firestore: AngularFirestore) { }
 
-  async add(jogo: Jogo): Promise<Jogo> {
+    getObservable(): Observable<Jogo[]> {
+        return this.firestore.collection<Jogo>('jogos').valueChanges({ idField: 'id' });
+    }
 
-    const docRef = await this.firestore.collection<Jogo>('jogos').add(jogo);
-    const doc = await docRef.get();
+    private convertToJogo(document: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): Jogo {
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Jogo;
-  }
+        const dados = document.data();
 
-  async get(id: string): Promise<Jogo> {
+        const jogo = {
+            id: document.id,
+            ...dados
+        } as Jogo;
 
-    const doc = await this.firestore.collection<Jogo>('jogos').doc(id).get().toPromise();
+        return jogo;
 
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as Jogo;
+    }
 
-  }
+    async add(estilo: Jogo): Promise<Jogo> {
+
+        const documentRef = await this.firestore.collection<Jogo>('jogos').add(estilo);
+        const document = await documentRef.get();
+
+        return this.convertToJogo(document);
+
+    }
+
+    async get(id: string): Promise<Jogo> {
+
+        const document = await this.firestore.collection<Jogo>('jogos').doc(id).get().toPromise();
+
+        return this.convertToJogo(document);
+
+    }
+
+    async update(id: string, jogo: Jogo): Promise<void> {
+
+        await this.firestore.collection<Jogo>('jogos').doc(id).update(jogo);
+
+    }
+
 }

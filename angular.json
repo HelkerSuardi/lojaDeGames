@@ -3,7 +3,7 @@
   "version": 1, 
   "newProjectRoot": "projects",
   "projects": {
-    "lojaDeGames": {
+    "LojaDeJogo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/lojaDeGames",
+            "outputPath": "dist/LojaDeJogo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "lojaDeGames:build"
+            "browserTarget": "LojaDeJogo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "lojaDeGames:build:production"
+              "browserTarget": "LojaDeJogo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lojaDeGames:build"
+            "browserTarget": "LojaDeJogo:build"
           }
         },
         "test": {
@@ -114,15 +114,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "lojaDeGames:serve"
+            "devServerTarget": "LojaDeJogo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "lojaDeGames:serve:production"
+              "devServerTarget": "LojaDeJogo:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "lojaDeGames"
+  "defaultProject": "LojaDeJogo"
 }

@@ -2,24 +2,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EdicaoJogoComponent } from './edicao-jogo.component';
 
-describe('EdicaoJogoComponent', () => {
-  let component: EdicaoJogoComponent;
-  let fixture: ComponentFixture<EdicaoJogoComponent>;
+describe('EdicaoProdutoComponent', () => {
+    let component: EdicaoJogoComponent;
+    let fixture: ComponentFixture<EdicaoJogoComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EdicaoJogoComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [EdicaoJogoComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EdicaoJogoComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(EdicaoJogoComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseConfig:{
+  firebaseConfig: {
     apiKey: "AIzaSyD4VtKr458Fnk_-ZI6kRxPoH1s8Y6TkKuU",
     authDomain: "lojadegames-36a24.firebaseapp.com",
     databaseURL: "https://lojadegames-36a24.firebaseio.com",
